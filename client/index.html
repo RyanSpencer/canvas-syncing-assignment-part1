@@ -2,12 +2,34 @@
 <html lang="en">
 <head>
     <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script type="text/babel" >
         "use strict";
-    
+        let socket;
+        const init = () => {
+            socket = io.connect();
+            
+            socket.on('connect', () => {
+                console.log('connecting');
+
+                socket.emit('join', {});
+                
+            });
+            socket.on('updateClient', (data) => {
+               console.log('boned');
+               socket.emit('msgToServer', {message: data.message}); 
+            });
+            socket.on('msg', (data) => {
+               console.log(data);
+               const message = data.message;
+               document.querySelector("#value").innerHTML = message;
+            });
+        };
+        
+        window.onload = init;
     </script>
 </head>
 <body>
-
+    <p>The current value is <span id="value">0</span></p>
 </body>
 </html>
