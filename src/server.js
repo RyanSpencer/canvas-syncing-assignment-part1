@@ -30,23 +30,15 @@ const onJoin = (sock) => {
       const messageData = {
         message: myNum,
       };
-      socket.emit('updateClient', messageData);
+      io.sockets.in('room1').emit('msg', messageData);
     };
     setInterval(sendMessage, Math.floor(Math.random() * 1000) + 3000);
   });
 };
 
-const onMessage = (sock) => {
-  const socket = sock;
-
-  socket.on('msgToServer', (data) => {
-    io.sockets.in('room1').emit('msg', { message: data.message });
-  });
-};
 io.sockets.on('connection', (socket) => {
   console.log('started');
   onJoin(socket);
-  onMessage(socket);
 });
 
 console.log('Websocket server started');

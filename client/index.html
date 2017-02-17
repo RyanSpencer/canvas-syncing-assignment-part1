@@ -15,10 +15,6 @@
                 socket.emit('join', {});
                 
             });
-            socket.on('updateClient', (data) => {
-               console.log('boned');
-               socket.emit('msgToServer', {message: data.message}); 
-            });
             socket.on('msg', (data) => {
                console.log(data);
                const message = data.message;
